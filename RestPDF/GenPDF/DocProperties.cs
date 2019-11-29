@@ -28,6 +28,8 @@ namespace GenPDF {
 
         public float bottomMargin = 30; /**< Indica el margen inferior para el contenido de la página en pt. El cual dejará espacio para el pie de página. */
 
+        public float headerHeight = 0;/**< Indica la altura que tenrá la cabecera de página en pt. */
+
         public float footerHeight = 0;/**< Indica la altura que tenrá el pie de página en pt. */
 
         public string pageType = "A4";/**< Indica el formato de la página: A2, A3, A4, etc. */

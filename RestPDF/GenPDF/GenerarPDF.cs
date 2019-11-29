@@ -19,23 +19,18 @@ using iText.Html2pdf;
 using iText.IO.Font;
 using iText.Layout.Font;
 using System;
-using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using iText.Kernel.Geom;
 using iText.Kernel.Events;
-using RestPDF.Models;
 using iText.Layout;
 using iText.Kernel.Pdf.Canvas;
-using iText.Kernel.Font;
-using iText.IO.Font.Constants;
 using iText.Layout.Element;
 using iText.Layout.Properties;
-using iText.Layout.Borders;
 
 namespace GenPDF{
 
     /// <summary>
-    /// Clase que genera un documento Pdf a apartir de Html y Css.
+    /// Clase que encapsula la generación de un documento Pdf a apartir de Html y Css.
     /// El Constructor recibe las rutas a los tipos de letra que se añadiran al FontProvider,
     /// y la url raíz que se usa para añadir a los "src" y "href" para transformarlos en absolutos.
     /// 
@@ -62,30 +57,53 @@ namespace GenPDF{
         /// Método que genera un documento pdf a partir de Html y css
         /// </summary>
         /// <param name="contenidoHtml">String con el html para el contenido del documento</param>
+        /// <param name="cabeceraHtml">String con el html para la cabecera de la página</param>
         /// <param name="pieHtml">String con el html para el pie de página</param>
         /// <param name="docProp">Objeto con las propiedades para el documento: márgenes, altura de pie y formato de la página(A1, A2, A4, LETTER, etc)</param>
         /// <param name="css">String con el css</param>
         ///
         /// <returns>Devuelve un array con los bytes del archivo pdf generado</returns>
-        public byte[] makeHtmlPDF(string contenidoHtml, string pieHtml, DocProperties docProp, string css) {
+        public byte[] makeHtmlPDF(string contenidoHtml, string cabeceraHtml, string pieHtml, DocProperties docProp, string css) {
 
             byte[] bytes = null;
 
             if(contenidoHtml != null && contenidoHtml.Trim() != ""){
 
-                contenidoHtml ="<style>\n@page{margin-top: " + docProp.topMargin + "pt;" +// Top Margin de la página
-                                "margin-bottom: " + docProp.bottomMargin+ "pt;" + // Bottom Maring de la página
+                float topMargin = docProp.topMargin;
+                float bottomMargin = docProp.bottomMargin;
+                bool cabecera = false;
+                bool pie = false;
+
+                if (cabeceraHtml != null && cabeceraHtml.Trim() != "" && docProp.headerHeight != 0){//Si se ha pasado la cabecera de página
+
+                    cabeceraHtml = "<style>\n" + css + "</style>\n" + cabeceraHtml;
+                    topMargin = docProp.headerHeight;
+                    cabecera = true;
+
+                } else {
+
+                    cabeceraHtml = "";
+                }
+
+                if (pieHtml != null && pieHtml.Trim() != "" && docProp.footerHeight != 0){//Si se ha pasado el pie de página
+
+                    pieHtml = "<style>\n" + css + "</style>\n" + pieHtml;
+                    bottomMargin = docProp.footerHeight;
+                    pie = true;
+
+                } else {
+
+                    pieHtml = "";
+                }
+
+                contenidoHtml ="<style>\n@page{margin-top: " + topMargin + "pt;" +// Top Margin de la página
+                                "margin-bottom: " + bottomMargin+ "pt;" + // Bottom Maring de la página
                                 "margin-left: " + docProp.leftMargin + "pt;" + // Left Margin de la página
                                 "margin-right: " + docProp.rightMargin + "pt;}" + // Right Margin de la página
                                 css + "</style>\n" + // Añadimos los estilos css al html del contenido
                                 contenidoHtml;
 
-                if (pieHtml != null && pieHtml != "") {//Si se ha pasado el pie de página
-
-                    pieHtml = "<style>\n" + css + "</style>\n" + pieHtml;
-                }
-
-                using(var dest = new MemoryStream()){// Creamos un buffer en memoria para guardar el documento generado
+                using (var dest = new MemoryStream()){// Creamos un buffer en memoria para guardar el documento generado
 
                     PdfWriter writer = new PdfWriter(dest);
                     PdfDocument pdf = new PdfDocument(writer);
@@ -115,10 +133,10 @@ namespace GenPDF{
                         prop.SetFontProvider(fProvider);// Añadimos los tipos de letra a las propiedades
                     }
 
-                    // Si el contenido para el pié no es nulo ni está vacío
-                    if(pieHtml != null && pieHtml.Trim() != ""){
+                    // Si el contenido para la cabecera o pié no es nulo ni está vacío
+                    if ( cabecera || pie ){
 
-                        PdfFooter footerHandler = new PdfFooter(pdf, pieHtml, prop, docProp);// Se crea el manejador para añadr el pie de página
+                        PdfHeaderFooter footerHandler = new PdfHeaderFooter(pdf, cabeceraHtml, pieHtml, prop, docProp);// Se crea el manejador para añadr el pie de página
                         pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, footerHandler);// Añadimos el manejador para el evento fin de página
 
                     }
@@ -135,19 +153,6 @@ namespace GenPDF{
             }
 
             return bytes;
-        }
-
-        /// <summary>
-        /// Método que genera un documento pdf a partir de Html y css
-        /// </summary>
-        /// <param name="contenidoHtml">String con el html para el contenido del documento</param>
-        /// <param name="docProp">Objeto con las propiedades para el documento: márgenes, altura de pie y formato de la página(A1, A2, A4, LETTER, etc)</param>
-        /// <param name="css">String con el css</param>
-        ///
-        /// <returns>Devuelve un array con los bytes del archivo pdf generado</returns>
-        public byte[] makeHtmlPDF(string contenidoHtml, DocProperties docProp, string css){
-
-            return makeHtmlPDF(contenidoHtml, null, docProp, css);
         }
 
         /// <summary>
@@ -211,7 +216,7 @@ namespace GenPDF{
 
 
         /// <summary>
-        /// Método que coloca en cada página del documento el número de página, y en caso de indicarse el total de páginas.
+        /// Método que coloca en cada página del documento el número de página, y en caso de indicarse, el total de páginas.
         /// </summary>
         ///
         /// <param name="bytes">Array de bytes con los datos del documento donde añadir los números de página</param>

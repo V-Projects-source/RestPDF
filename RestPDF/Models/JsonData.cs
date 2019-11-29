@@ -29,6 +29,9 @@ namespace RestPDF.Models {
         /// <summary>string con el html para el contenido de las páginas</summary>
         public string contentHtml { get; set; }
 
+        /// <summary>string con el html para la cabecera</summary>
+        public string headerHtml { get; set; }
+
         /// <summary>string con el html para el pie</summary>
         public string footerHtml { get; set; }
 
@@ -54,7 +57,9 @@ namespace RestPDF.Models {
 
         public string bottomMargin { get; set; }/**< Indica el margen inferior para el contenido de la página en pt. El cual dejará espacio para el pie de página. */
 
-        public string footerHeight { get; set; }/**< Indica la altura que tenrá el pie de página en pt. */
+        public float headerHeight { get; set; }/**< Indica la altura que tenrá la cabecera de página en pt. */
+
+        public float footerHeight { get; set; }/**< Indica la altura que tenrá el pie de página en pt. */
 
         public string pageType { get; set; }/**< Indica el formato de la página: A2, A3, A4, etc. */
 

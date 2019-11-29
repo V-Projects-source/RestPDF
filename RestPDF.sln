@@ -5,6 +5,13 @@ VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestPDF", "RestPDF\RestPDF.csproj", "{7E127977-9EA0-4573-97E8-8785F2DC0C64}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4169614A-F8A4-4B27-B7B4-165EAC058571}"
+	ProjectSection(SolutionItems) = preProject
+		iText7License.txt = iText7License.txt
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

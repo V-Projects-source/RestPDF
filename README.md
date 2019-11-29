@@ -14,6 +14,7 @@ Request body example:
     "fileName":""
     "siteUrl": "http://www.domain_name.com",
     "contentHtml": "{Html code}",
+    "headerHtml": "{Html code}",
     "footerHtml": "{Html code}",
     "urlCSS": "http://www.domain_name.co/file.css",
     "download": "inline",
@@ -21,6 +22,7 @@ Request body example:
     "bottomMargin":"120",
     "leftMargin":"37",
     "rightMargin":"37",
+    "headerHeight":"75",
     "footerHeight":"110",
     "pageType":"A4",
     "saveFile":"true",
@@ -51,10 +53,11 @@ Body
 |siteUrl|Url root where the images are located. It is added to the "src" of the images to get the absolute path.|
 |htmlFromUrl (optional)|Url where is located the html for the content.If you use this field, the contentHtml field does not use in the request.|
 |contentHtml|HTML with the content to generate the file.|
+|headerHtml (optional)|HTML with the content to generate the header.|
 |footerHtml (optional)|HTML with the content to generate the footer.|
 |urlCSS (optional)|Url where is located the styles file.|
 |download|Indicates how the file is received.|
-|docProperties (optional)|<p>(optional) Indicates the properties for the document to be generated: "topMargin", "leftMargin", "rightMargin", "bottomMargin", "footerHeight", "pageType", "numberPage","numberPageSize","numberPageOf", "numberPageVpos"<p>values for **"pageType"**: A0, A1, A2, A3, A4, A5, A6, A7, A9, B0, B1, B2, B3, B5, B6, B7, B8, EXECUTIVE, LEDGER, LEGAL, LETTER, TABLOID</p><p>With **"numberPage"** = true the number of each page is added.</p><p>**"numberPageSize"** is the font size.</p><p>**"numberPageOf"** indicates the character (s) that are placed between the page number and the total pages. ex: 1 of 6. If not indicated, only the page number is added</p><p>**"numberPageVpos"** Indicates the vertical position where the page number is placed.</p>|
+|docProperties (optional)|<p>(optional) Indicates the properties for the document to be generated: "topMargin", "leftMargin", "rightMargin", "bottomMargin", "headerHeight", "footerHeight", "pageType", "numberPage","numberPageSize","numberPageOf", "numberPageVpos"<p>values for **"pageType"**: A0, A1, A2, A3, A4, A5, A6, A7, A9, B0, B1, B2, B3, B5, B6, B7, B8, EXECUTIVE, LEDGER, LEGAL, LETTER, TABLOID</p><p>With **"numberPage"** = true the number of each page is added.</p><p>**"numberPageSize"** is the font size.</p><p>**"numberPageOf"** indicates the character (s) that are placed between the page number and the total pages. ex: 1 of 6. If not indicated, only the page number is added</p><p>**"numberPageVpos"** Indicates the vertical position where the page number is placed.</p>|
 |pathFonts (optional)|Paths of the fonts that you want to add to the document.<p>Use &#124; to separate the paths.</p>|
 |saveFile (optional)|Indicates if the generated pdf is saved in a library.The file name will be saved as:{fileName}_yyyy-MM-dd_hh-mm-ss.fff.pdf|
 |librarySiteUrl (optional)|**This values is required if saveFile is true.** Indicates the url of the site where the library is located.|
