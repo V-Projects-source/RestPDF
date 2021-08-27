@@ -26,6 +26,7 @@ using iText.Layout;
 using iText.Kernel.Pdf.Canvas;
 using iText.Layout.Element;
 using iText.Layout.Properties;
+using System.Net.Mail;
 
 namespace GenPDF{
 
@@ -123,7 +124,10 @@ namespace GenPDF{
                             fProgram = FontProgramFactory.CreateFont(path);// Se crea la fuente
                             fProvider.AddFont(fProgram);// Se añade al proveedor
 
-                        } catch (Exception e) { }
+                        } catch (Exception e) {
+
+                            Console.WriteLine(e.Message);
+                        }
                     }
 
                     FontSet fSet = fProvider.GetFontSet();// Obtenemos el set de fuentes del proveedor
@@ -248,7 +252,9 @@ namespace GenPDF{
 
                 float anchura = pageSize.GetWidth() - (docProp.leftMargin + docProp.rightMargin);// Obtenemos la anchura que tendrá la zona del pie
 
-                Canvas canvas = new Canvas(pdfCanvas, pdfDoc, new Rectangle(docProp.leftMargin, vPos, anchura, docProp.numberPageSize));// Generamos el canvas para la zona del número de página
+                // Obsoleto a partir de la versión 7.1.11
+                //Canvas canvas = new Canvas(pdfCanvas, pdfDoc, new Rectangle(docProp.leftMargin, vPos, anchura, docProp.numberPageSize));
+                Canvas canvas = new Canvas(pdfCanvas, new Rectangle(docProp.leftMargin, vPos, anchura, docProp.numberPageSize));// Generamos el canvas para la zona del número de página
 
                 if (docProp.numberPageOf != "") { npage = i.ToString() + " " + docProp.numberPageOf + " " + total.ToString(); }
 

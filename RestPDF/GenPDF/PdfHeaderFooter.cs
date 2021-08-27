@@ -15,13 +15,11 @@
 
 using System.Collections.Generic;
 using iText.Html2pdf;
-using iText.Kernel.Colors;
 using iText.Kernel.Events;
 using iText.Kernel.Geom;
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas;
 using iText.Layout;
-using iText.Layout.Borders;
 using iText.Layout.Element;
 
 namespace GenPDF{
@@ -99,7 +97,9 @@ namespace GenPDF{
         /// <param name="anchura">Anchura de la zona donde añadir el contenido</param>
         private void addHeader(PdfCanvas pdfCanvas, float posY, float anchura){
 
-            Canvas canvas = new Canvas(pdfCanvas, pdf, new Rectangle(docProp.leftMargin, posY, anchura, docProp.headerHeight));// Generamos el canvas para la zona del pie
+            //Obsoleto a partir de la versión 7.1.11
+            //Canvas canvas = new Canvas(pdfCanvas, pdf, new Rectangle(docProp.leftMargin, posY, anchura, docProp.headerHeight));
+            Canvas canvas = new Canvas(pdfCanvas, new Rectangle(docProp.leftMargin, posY, anchura, docProp.headerHeight));// Generamos el canvas para la zona del pie
 
             foreach (IElement headerElement in headerElements){
 
@@ -121,7 +121,9 @@ namespace GenPDF{
         /// <param name="anchura">Anchura de la zona donde añadir el contenido</param>
         private void addFooter(PdfCanvas pdfCanvas, float anchura){
 
-            Canvas canvas = new Canvas(pdfCanvas, pdf, new Rectangle(docProp.leftMargin, 0, anchura, docProp.footerHeight));// Generamos el canvas para la zona del pie
+            // Obsoleto a partir de la versión 7.1.11
+            //Canvas canvas = new Canvas(pdfCanvas, pdf, new Rectangle(docProp.leftMargin, 0, anchura, docProp.footerHeight));
+            Canvas canvas = new Canvas(pdfCanvas, new Rectangle(docProp.leftMargin, 0, anchura, docProp.footerHeight));// Generamos el canvas para la zona del pie
 
             foreach (IElement footerElement in footerElements){
 

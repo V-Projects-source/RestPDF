@@ -267,7 +267,10 @@ namespace RestPDF.Controllers{
                 // Para cada archivo
                 foreach (var fontFile in fontFiles){
 
-                    pathFonts.Add(fontFile.FullName);// Añadimos su ruta                
+                    if (fontFile.Extension != ".txt"){
+
+                        pathFonts.Add(fontFile.FullName);// Añadimos su ruta
+                    }
                 }
             }
 

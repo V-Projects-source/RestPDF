@@ -93,8 +93,8 @@ Body
 
 
 ## Requirements
-* [iText 7 Community (>=7.1.8)](https://www.nuget.org/packages/itext7/)
-* [itext7.pdfHTML (>=2.1.5 )](https://www.nuget.org/packages/itext7.pdfhtml/)
+* [iText 7 Community (>=7.1.16)](https://www.nuget.org/packages/itext7/)
+* [itext7.pdfHTML (>=3.0.5 )](https://www.nuget.org/packages/itext7.pdfhtml/)
 * Microsoft.Sharepoint.Client
 * Microsoft.Sharepoint.Client.Runtime
 
